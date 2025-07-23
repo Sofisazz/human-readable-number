@@ -1,3 +1,69 @@
-module.exports = function toReadable(/* number */) {
-  throw new Error('Not implemented');
+module.exports = function toReadable(number) {
+  const count = Array.from(String(number)).length;
+  // number = Number(number);
+  let str = '';
+  const one = [
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+  ];
+  const two = [
+    'eleven',
+    'twelve',
+    'thirteen',
+    'fourteen',
+    'fifteen',
+    'sixteen',
+    'seventeen',
+    'eighteen',
+    'nineteen',
+  ];
+  const three = [
+    'ten',
+    'twenty',
+    'thirty',
+    'fourty',
+    'fifty',
+    'sixty',
+    'seventy',
+    'eighty',
+    'ninety',
+  ];
+  const hund = 'hundred';
+
+  switch (count) {
+    case 1:
+      str = one[number - 1];
+      break;
+    case 2:
+      if (number % 10 === 0) {
+        str = three[number / 10 - 1];
+      } else if (number < 20) {
+        str = two[(number % 10) - 1];
+      } else {
+        const ost = number % 10;
+        const floor = Math.floor(number / 10);
+        str = `${three[floor - 1]} ${one[ost - 1]}`;
+      }
+      break;
+    case 3:
+      if (number % 100 === 0) {
+        str = `${one[number / 100 - 1]} ${hund}`;
+      } else {
+        const ost = number % 100;
+        const second = Math.floor(ost / 10);
+        const third = ost % 10;
+        str = `${one[Math.floor(number / 100) - 1]} ${hund} ${three[second - 1]} ${one[third - 1]}`;
+      }
+      break;
+    default:
+      break;
+  }
+  return str;
 };
