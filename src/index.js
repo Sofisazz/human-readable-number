@@ -28,7 +28,7 @@ module.exports = function toReadable(number) {
     'ten',
     'twenty',
     'thirty',
-    'fourty',
+    'forty',
     'fifty',
     'sixty',
     'seventy',
@@ -39,6 +39,7 @@ module.exports = function toReadable(number) {
 
   switch (count) {
     case 1:
+      if (number === 0) return 'zero';
       str = one[number - 1];
       break;
     case 2:
@@ -55,6 +56,15 @@ module.exports = function toReadable(number) {
     case 3:
       if (number % 100 === 0) {
         str = `${one[number / 100 - 1]} ${hund}`;
+      } else if ((number % 100) % 10 === 0) {
+        const ost = number % 100;
+        str = `${one[Math.floor(number / 100) - 1]} ${hund} ${three[ost / 10 - 1]}`;
+      } else if (number % 100 < 10) {
+        str = `${one[Math.floor(number / 100) - 1]} ${hund} ${one[(number % 100) - 1]}`;
+      } else if (number % 100 < 20) {
+        const ost = number % 100;
+        const second = ost % 10;
+        str = `${one[Math.floor(number / 100) - 1]} ${hund} ${two[second - 1]}`;
       } else {
         const ost = number % 100;
         const second = Math.floor(ost / 10);
